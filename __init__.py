@@ -9,20 +9,23 @@
 
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_handler
+from mycroft import intent_file_handler
 from mycroft.util.log import LOG
+from mycroft.util.parse import extract_datetime
 import json
 import requests
 
 
+UTC_TZ = u'+0:00'
 # Each skill is contained within its own class, which inherits base methods
 # from the MycroftSkill class.  You extend this class as shown below.
 
 # TODO: Change "Template" to a unique name for your skill
-class TemplateSkill(MycroftSkill):
+class GTMSkill(MycroftSkill):
 
     # The constructor of the skill, which calls MycroftSkill's constructor
     def __init__(self):
-        super(TemplateSkill, self).__init__(name="TemplateSkill")
+        super(GTMSkill, self).__init__(name="GTMSkill")
         
         # Initialize working variables used within the skill.
         self.count = 0
@@ -35,18 +38,14 @@ class TemplateSkill(MycroftSkill):
 
 
 
-    @intent_handler(IntentBuilder("").require("Patient").require("firstname").require("lastname"))
-    def handle_total_patient(self,message):
-        firstname = message.data['firstname']
-        lastname = message.data['lastname']
-        url = 'http://hapi.fhir.org/baseDstu3/Patient?phonetic='+firstname+'&'+'phonetic='+lastname+'&_pretty=true'
-        response = requests.get(url)
-        json_data = json.loads(response.text)
-        total = json_data['total']
-        self.speak_dialog("TotalPatient",data={"total" : total})
+    @intent_file_handler('SetTime.intent')
+    def get_time(self,message):
+        st = extract_datetime(msg.data['utterance'])[0]
+        print(st)
+        self.speak_dialog("Success")
 
 
-    @intent_handler(IntentBuilder("").require("PatientFilter").require("firstname").require("lastname").require("birthyear"))
+    '''@intent_handler(IntentBuilder("").require("PatientFilter").require("firstname").require("lastname").require("birthyear"))
     def handle_filtered_patient(self,message):
         firstname = message.data['firstname']
         lastname = message.data['lastname']
@@ -96,7 +95,7 @@ class TemplateSkill(MycroftSkill):
         start_date = json_data['entry'][latest_appointment]['resource']['start']
         #print(json_data['entry'][latest_appointment]['resource']['end'])
         place = json_data['entry'][latest_appointment]['resource']['participant'][0]['actor']['display']
-        self.speak_dialog("PatientAppointment",data={"start_date":start_date,"place":place})
+        self.speak_dialog("PatientAppointment",data={"start_date":start_date,"place":place})'''
 
 
 
@@ -116,20 +115,7 @@ class TemplateSkill(MycroftSkill):
     #   'Hello world'
     #   'Howdy you great big world'
     #   'Greetings planet earth'
-    '''@intent_handler(IntentBuilder("").require("Hello").require("World"))
-    def handle_hello_world_intent(self, message):
-        # In this case, respond by simply speaking a canned response.
-        # Mycroft will randomly speak one of the lines from the file
-        #    dialogs/en-us/hello.world.dialog
-        self.speak_dialog("hello.world")
-
-    @intent_handler(IntentBuilder("").require("Count").require("Dir"))
-    def handle_count_intent(self, message):
-        if message.data["Dir"] == "up":
-            self.count += 1
-        else:  # assume "down"
-            self.count -= 1
-        self.speak_dialog("count.is.now", data={"count": self.count})'''
+  
 
     # The "stop" method defines what Mycroft does when told to stop during
     # the skill's execution. In this case, since the skill's functionality
@@ -143,4 +129,4 @@ class TemplateSkill(MycroftSkill):
 # The "create_skill()" method is used to create an instance of the skill.
 # Note that it's outside the class itself.
 def create_skill():
-    return TemplateSkill()
+    return GTMSkill()

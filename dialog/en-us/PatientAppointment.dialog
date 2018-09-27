@@ -1,1 +1,0 @@
-patient's latest appointment is on {{ start_date }} at {{ place }}
