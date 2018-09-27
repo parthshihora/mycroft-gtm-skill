@@ -41,7 +41,7 @@ class GTMSkill(MycroftSkill):
     @intent_file_handler('SetTime.intent')
     def get_time(self,msg):
         st = extract_datetime(msg.data['utterance'])[0]
-        print(st)
+        print("here is the time", st)
         self.speak_dialog("Success")
 
 
