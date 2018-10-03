@@ -39,16 +39,16 @@ class GTMSkill(MycroftSkill):
         #print("message data", msg.data['utterance'])
         #print("here is the time from msg",extract_datetime(msg.data['utterance']))
         print("here is the time", start)
-        self.speak_dialog("Success", data = {"start":start})
+        self.speak_dialog("Success")
 
 
-    @intent_file_handler('SetEndTime.intent')
+    '''@intent_file_handler('SetEndTime.intent')
     def get_end_time(self,msg):
         end = extract_datetime(msg.data['utterance'])[0]
         #print("message data", msg.data['utterance'])
         #print("here is the time from msg",extract_datetime(msg.data['utterance']))
         #print("here is the time", st)
-        self.speak_dialog("Success", data = {"end":end})
+        self.speak_dialog("Success", data = {"end":end})'''
 
 
 
