@@ -39,7 +39,10 @@ class GTMSkill(MycroftSkill):
         self.st = start
         #print("message data", msg.data['utterance'])
         #print("here is the time from msg",extract_datetime(msg.data['utterance']))
-        #print("here is the time", start)
+        print("here is the time", start)
+        start = start.split("-")
+        print("here is the new time", start)
+
         self.speak_dialog("AskTime")
 
 
