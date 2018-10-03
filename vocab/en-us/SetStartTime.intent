@@ -1,2 +1,2 @@
-set start time at {{ time }}
+set time at {time}
 

@@ -1,1 +1,1 @@
-set end time at {{ time }}
+set end time at {time}
