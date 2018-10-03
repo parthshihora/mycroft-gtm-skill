@@ -75,7 +75,7 @@ class GTMSkill(MycroftSkill):
         #print("message data", msg.data['utterance'])
         #print("here is the time from msg",extract_datetime(msg.data['utterance']))
         #print("here is the time", end_time)
-        self.speak_dialog("MeetingSet", data = {"meeting_id":})
+        self.speak_dialog("MeetingSet", data = {"meeting_id":m_id})
 
 
 
