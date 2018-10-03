@@ -30,78 +30,29 @@ class GTMSkill(MycroftSkill):
         # Initialize working variables used within the skill.
         self.count = 0
 
-    '''def initialize(self):
-        # Creating GreetingsIntent requiring Greetings vocab
-        patients = IntentBuilder("ReadPatientIntent").require("Patient").require.("name").build()
-        self.register_intent(patients,self.handle_patient_read)'''
-        # Associating a callback with the Intent
+    
+
+
+    @intent_file_handler('SetStartTime.intent')
+    def get_start_time(self,msg):
+        start = extract_datetime(msg.data['utterance'])[0]
+        #print("message data", msg.data['utterance'])
+        #print("here is the time from msg",extract_datetime(msg.data['utterance']))
+        #print("here is the time", st)
+        self.speak_dialog("Success", data = {"start":start})
+
+
+    @intent_file_handler('SetEndTime.intent')
+    def get_end_time(self,msg):
+        end = extract_datetime(msg.data['utterance'])[0]
+        #print("message data", msg.data['utterance'])
+        #print("here is the time from msg",extract_datetime(msg.data['utterance']))
+        #print("here is the time", st)
+        self.speak_dialog("Success", data = {"end":end})
 
 
 
-    @intent_file_handler('SetTime.intent')
-    def get_time(self,msg):
-        st = extract_datetime(msg.data['utterance'])[0]
-        print("message data", msg.data['utterance'])
-        print("here is the time from msg",extract_datetime(msg.data['utterance']))
-        print("here is the time", st)
-        self.speak_dialog("Success")
-
-
-    '''@intent_handler(IntentBuilder("").require("PatientFilter").require("firstname").require("lastname").require("birthyear"))
-    def handle_filtered_patient(self,message):
-        firstname = message.data['firstname']
-        lastname = message.data['lastname']
-        birthyear = message.data['birthyear']
-        url = 'http://hapi.fhir.org/baseDstu3/Patient?phonetic='+firstname+'&'+'phonetic='+lastname+'&_pretty=true'
-        response = requests.get(url)
-        json_data = json.loads(response.text)
-        f = 0
-        
-        for x in range(len(json_data['entry'])):
-            keys = json_data['entry'][x]['resource'].keys()
-            if "birthDate" in keys:
-                year = json_data['entry'][x]['resource']['birthDate'].split('-')[0]
-                if(year == birthyear):
-                    f = 1
-                    Id = json_data['entry'][x]['resource']['id']
-                    self.patientId = Id
-                    break
-                    #url2 = 'http://hapi.fhir.org/baseDstu3/MedicationStatement?patient='+Id+'&_pretty=true'
-                    #response2 = requests.get(url2)
-                    #json_data2 = json.loads(response2.text)
-                    #med = json_data2['entry'][0]['resource']['medicationCodeableConcept']['text']
-                    #break
-        if(f==1):
-            self.speak_dialog("PatientFound")
-        else:
-            self.speak_dialog("PatientNotFound")
-
-    @intent_handler(IntentBuilder("").require("PatientMed"))
-    def handle_patient_med(self,message):
-        patient_id = self.patientId
-        print("**********",patient_id)
-        url = 'http://hapi.fhir.org/baseDstu3/MedicationStatement?patient='+patient_id+'&_pretty=true'
-        response = requests.get(url)
-        json_data = json.loads(response.text)
-        med = json_data['entry'][0]['resource']['medicationCodeableConcept']['text']
-        self.speak_dialog("PatientMed",data={"med":med})
-
-    @intent_handler(IntentBuilder("").require("PatientAppointment"))
-    def handle_patient_appointment(self,message):
-        patient_id = self.patientId
-        print("**********",patient_id)
-        url = 'http://hapi.fhir.org/baseDstu3/Appointment?patient='+patient_id+'&_pretty=true'
-        response = requests.get(url)
-        json_data = json.loads(response.text)
-        latest_appointment = len(json_data['entry'])-1
-        start_date = json_data['entry'][latest_appointment]['resource']['start']
-        #print(json_data['entry'][latest_appointment]['resource']['end'])
-        place = json_data['entry'][latest_appointment]['resource']['participant'][0]['actor']['display']
-        self.speak_dialog("PatientAppointment",data={"start_date":start_date,"place":place})'''
-
-
-
-
+    
 
         # Sending a command to mycroft, speak Greetings Dialog
 
