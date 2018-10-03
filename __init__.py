@@ -43,7 +43,7 @@ class GTMSkill(MycroftSkill):
         self.st = start_time
         #print("message data", msg.data['utterance'])
         #print("here is the time from msg",extract_datetime(msg.data['utterance']))
-        print("here is the time", start_time)
+        #print("here is the time", start_time)
         self.speak_dialog("AskTime")
 
 
@@ -53,12 +53,29 @@ class GTMSkill(MycroftSkill):
         end = str(end)
         end = end.split(" ")
         time = end[1].split("-")
-        end_time = start[0]+"T"+time[0]+"Z"
-        start = self.st
+        end_time = end[0]+"T"+time[0]+"Z"
+        start_time = self.st
+
+        payload = {
+        "subject": "Test meeting",
+        "starttime": start_time,
+        "endtime": end_time,
+        "passwordrequired": False,
+        "conferencecallinfo": "hybrid",
+        "timezonekey": "",
+        "meetingtype": "scheduled"
+        }
+        payload = json.dumps(payload)
+        res = requests.post('https://api.getgo.com/G2M/rest/meetings', data=payload, headers={'Authorization':'Bearer SAdzPczF9eXmBr8pomDfNfaAXO4E'})
+
+        json_data = json.loads(res.text)
+        m_id = json_data[0]['joinURL']
+        print(json_data[0]['joinURL'])
+
         #print("message data", msg.data['utterance'])
         #print("here is the time from msg",extract_datetime(msg.data['utterance']))
-        print("here is the time", end_time)
-        self.speak_dialog("MeetingSet", data = {"start":start,"end":end_time})
+        #print("here is the time", end_time)
+        self.speak_dialog("MeetingSet", data = {"meeting_id":})
 
 
 
