@@ -66,7 +66,7 @@ class GTMSkill(MycroftSkill):
         "meetingtype": "scheduled"
         }
         payload = json.dumps(payload)
-        res = requests.post('https://api.getgo.com/G2M/rest/meetings', data=payload, headers={'Authorization':'Bearer SAdzPczF9eXmBr8pomDfNfaAXO4E'})
+        res = requests.post('https://api.getgo.com/G2M/rest/meetings', data=payload, headers={'Authorization':'Bearer t6bvlMqFcwLVIiFnhRqgxl5lx8nB'})
 
         json_data = json.loads(res.text)
         m_id = json_data[0]['joinURL']
